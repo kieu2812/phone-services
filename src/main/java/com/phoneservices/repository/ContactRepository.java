@@ -9,6 +9,16 @@ import java.util.List;
 public interface ContactRepository extends CrudRepository<Contact, Integer> {
     List<Contact> findAll();
 
-    @Query("Select c from Contact c Where c.givenName = ?1 Or c.surName = ?2")
-    List<Contact> findByGivenNameOrSurname(String giveName, String surname);
+    @Query("Select c from Contact c Where c.givenName = ?1 ")
+    List<Contact> findByGivenName(String giveName);
+
+    @Query("Select c from Contact c Where c.surName=?2 ")
+    List<Contact> findBySurname(String surname);
+
+    @Query("Select c from Contact c Where c.givenName = ?1 and surName=?2 ")
+    List<Contact> findByGivenNameAndSurname(String giveName, String surname);
+
+
+
+
 }

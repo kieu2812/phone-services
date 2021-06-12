@@ -23,6 +23,10 @@ public class ContactService {
     }
 
     public List<Contact> findByGivenNameOrSurname(String giveName, String surname) {
-        return repository.findByGivenNameOrSurname(giveName, surname);
+        if(giveName!=null && surname!=null )
+            return repository.findByGivenNameAndSurname(giveName, surname);
+        if(giveName!=null && surname==null)
+            return repository.findByGivenName(giveName);
+        return repository.findBySurname(surname);
     }
 }

@@ -25,6 +25,13 @@ public class ServiceTest {
     @InjectMocks
     ContactService service;
 
+    private List<Contact> createMockData(){
+        List<Contact> contactList = new ArrayList<>();
+        contactList.add( new Contact(1, "Alax", "Andrew", "123456"));
+        contactList.add( new Contact(2, "Matt", "Lencher", "249389584"));
+        return contactList;
+    }
+
     @Test
     public void testFindAllWithEmptyContact(){
         List<Contact> contactList =  new ArrayList<>();
@@ -34,11 +41,19 @@ public class ServiceTest {
     }
     @Test
     public void testFindAllContact(){
-        List<Contact> contactList =  new ArrayList<>();
-        contactList.add( new Contact(1, "Alax", "Andrew", "123456"));
-        contactList.add( new Contact(2, "Matt", "Lencher", "249389584"));
+        List<Contact> contactList =createMockData();
+
         when(repository.findAll()).thenReturn(contactList);
         List<Contact> contacts = service.findAll();
+        assertEquals(contacts, contactList);
+    }
+
+    @Test
+    public void testFindAllContactByGivenName(){
+        List<Contact> contactList =createMockData();
+
+        when(repository.findAll()).thenReturn(contactList);
+        List<Contact> contacts = service.findByGivenNameOrSurname(contactList.get(0).getGivenName(), null);
         assertEquals(contacts, contactList);
     }
 }

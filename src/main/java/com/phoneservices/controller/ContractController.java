@@ -18,18 +18,15 @@ public class ContractController {
         this.service = service;
     }
 
-
-//    @GetMapping("/contacts")
-//    public List<Contact> getContacts(){
-//        return service.findAll();
-//    }
-
     @GetMapping("/contacts")
     public List<Contact> findByGivenNameOrSurName(@RequestParam(required = false) String givenname, @RequestParam(required = false) String surname){
-        if(givenname != null || surname !=null) {
-            return service.findByGivenNameOrSurname(givenname, surname);
-        } else {
-            return service.findAll();
-        }
+       if(givenname==null && surname==null )
+           return service.findAll();
+       return  service.findByGivenNameOrSurname(givenname, surname);
+//        if(givenname != null || surname !=null) {
+//            return service.findByGivenNameOrSurname(givenname, surname);
+//        } else {
+//            return service.findAll();
+//        }
     }
 }

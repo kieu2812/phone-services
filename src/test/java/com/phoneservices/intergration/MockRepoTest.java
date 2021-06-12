@@ -27,11 +27,26 @@ public class MockRepoTest {
     @MockBean
     ContactRepository contactRepository;
 
-    @Test
-    public void testGetAllContact() throws Exception {
+    private List<Contact> createMockData(){
         List<Contact> contactList = new ArrayList<>();
         contactList.add( new Contact(1, "Alax", "Andrew", "123456"));
         contactList.add( new Contact(2, "Matt", "Lencher", "249389584"));
+        return contactList;
+    }
+    @Test
+    public void testGetAllContact() throws Exception {
+        List<Contact> contactList =createMockData();
+        when(contactRepository.findAll()).thenReturn(contactList);
+        this.mvc.perform(get("/contacts"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()").value(2))
+                .andExpect(jsonPath("[0]").value(contactList.get(0)))
+                .andExpect(jsonPath("[1]").value(contactList.get(1)));
+    }
+
+    @Test
+    public void testGetAllContactByGivenName() throws Exception {
+        List<Contact> contactList =createMockData();
 
         when(contactRepository.findAll()).thenReturn(contactList);
         this.mvc.perform(get("/contacts"))
