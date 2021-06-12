@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  phone_services_db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+  phone_services_app:
+    image: phoneservices:dev
+    ports:
+      - "1000:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dockercompose
+    depends_on:
+      - phone_services_db
