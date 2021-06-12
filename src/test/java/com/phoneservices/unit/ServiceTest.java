@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,8 +53,27 @@ public class ServiceTest {
     public void testFindAllContactByGivenName(){
         List<Contact> contactList =createMockData();
 
-        when(repository.findAll()).thenReturn(contactList);
+        when(repository.findByGivenName(contactList.get(0).getGivenName())).thenReturn(contactList);
         List<Contact> contacts = service.findByGivenNameOrSurname(contactList.get(0).getGivenName(), null);
+        assertEquals(contacts, contactList);
+    }
+
+
+    @Test
+    public void testFindAllContactBySurname(){
+        List<Contact> contactList =createMockData();
+
+        when(repository.findBySurname(contactList.get(0).getSurName())).thenReturn(contactList);
+        List<Contact> contacts = service.findByGivenNameOrSurname(null, contactList.get(0).getSurName());
+        assertEquals(contacts, contactList);
+    }
+
+    @Test
+    public void testFindAllContactByGivennameAndSurname(){
+        List<Contact> contactList =createMockData();
+
+        when(repository.findByGivenNameAndSurname(contactList.get(0).getGivenName(), contactList.get(0).getSurName())).thenReturn(contactList);
+        List<Contact> contacts = service.findByGivenNameOrSurname(contactList.get(0).getGivenName(), contactList.get(0).getSurName());
         assertEquals(contacts, contactList);
     }
 }
