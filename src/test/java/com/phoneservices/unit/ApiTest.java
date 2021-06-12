@@ -6,11 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Description;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -51,6 +54,31 @@ public class ApiTest {
                 .andExpect(jsonPath("length()", is(2)))
                 .andExpect(jsonPath("[0]").value(contactList.get(0)))
                 .andExpect(jsonPath("[1]").value(contactList.get(1)));
+    }
+
+    @Test
+    public void testGivenNameOrSurname() throws Exception{
+        List<Contact> contactList =  new ArrayList<>();
+        Contact c1= new Contact(1, "Alax", "Andrew", "123456");
+        contactList.add( c1);
+        when(service.findByGivenNameOrSurname(c1.getGivenName(), c1.getSurName())).thenReturn(contactList);
+        this.mvc.perform(get("/contacts?givenname=Alax&surname=Andrew"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()", is(1)))
+                .andExpect(jsonPath("[0]").value(contactList.get(0)));
+    }
+
+    @Test
+    @Description("Test to validate only when Givenname is provided")
+    public void testGivenNameProvided() throws Exception{
+        List<Contact> contactList =  new ArrayList<>();
+        Contact c1= new Contact(1, "Alax", "Andrew", "123456");
+        contactList.add( c1);
+        when(service.findByGivenNameOrSurname(c1.getGivenName(), null)).thenReturn(contactList);
+        this.mvc.perform(get("/contacts?givenname=Alax"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("length()", is(1)))
+                .andExpect(jsonPath("[0]").value(contactList.get(0)));
     }
 
 }

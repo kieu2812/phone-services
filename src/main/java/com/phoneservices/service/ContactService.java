@@ -21,4 +21,8 @@ public class ContactService {
     public List<Contact> findAll() {
         return repository.findAll();
     }
+
+    public List<Contact> findByGivenNameOrSurname(String giveName, String surname) {
+        return repository.findByGivenNameOrSurname(giveName, surname);
+    }
 }
