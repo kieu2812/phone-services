@@ -1,11 +1,10 @@
 package com.phoneservices.controller;
 
+import com.phoneservices.exeption.ResourceNotFoundException;
 import com.phoneservices.model.Contact;
 import com.phoneservices.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,10 +22,30 @@ public class ContractController {
        if(givenname==null && surname==null )
            return service.findAll();
        return  service.findByGivenNameOrSurname(givenname, surname);
-//        if(givenname != null || surname !=null) {
-//            return service.findByGivenNameOrSurname(givenname, surname);
-//        } else {
-//            return service.findAll();
-//        }
+
     }
+
+    @PostMapping("/contact")
+    public Contact createContact(@RequestBody Contact contact){
+        return  service.save(contact);
+    }
+
+    @GetMapping("/contact/{id}")
+    public Contact getById(@PathVariable int id) throws Exception {
+        return service.findById(id);
+    }
+
+    @DeleteMapping("/contact/{id}")
+    public void deleteById(@PathVariable int id) throws Exception {
+        try {
+            Contact contact = service.findById(id);
+            service.deleteById(id);
+        }catch(Exception e){
+
+            throw new ResourceNotFoundException("Contact does not found");
+
+        }
+
+    }
+
 }

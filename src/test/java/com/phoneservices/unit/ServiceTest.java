@@ -1,6 +1,7 @@
 package com.phoneservices.unit;
 
 
+import com.phoneservices.exeption.ResourceNotFoundException;
 import com.phoneservices.model.Contact;
 import com.phoneservices.repository.ContactRepository;
 import com.phoneservices.service.ContactService;
@@ -12,9 +13,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -76,4 +80,29 @@ public class ServiceTest {
         List<Contact> contacts = service.findByGivenNameOrSurname(contactList.get(0).getGivenName(), contactList.get(0).getSurName());
         assertEquals(contacts, contactList);
     }
+
+    @Test
+    public void testCreateContact(){
+        Contact c1 =new Contact(1, "Alax", "Andrew", "123456");
+        when(repository.save(c1)).thenReturn(c1);
+        Contact contact = service.save(c1);
+        assertEquals(contact,c1);
+    }
+
+    @Test
+    public void testGetContactById() throws ResourceNotFoundException {
+        Contact c1 =new Contact(1, "Alax", "Andrew", "123456");
+        when(repository.findById(c1.getId())).thenReturn(Optional.of(c1));
+        Contact contact = service.findById(c1.getId());
+        assertEquals(contact,c1);
+    }
+
+    @Test
+    public void testDeleteContactById() throws ResourceNotFoundException {
+        doNothing().when(repository).deleteById(2);
+        service.deleteById(2);
+
+    }
+
+
 }
