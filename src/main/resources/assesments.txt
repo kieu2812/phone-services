@@ -1,0 +1,37 @@
+June 12th Exercise
+Basic contact List
+This API is for a basic phone list.
+The tasks here, in descending order of priority are:
+1) Rigorously apply TDD. Write no code that is not fixing a previously written test that breaks.
+   Write unit tests for the API mocking the service
+   Write unit tests for the service mocking the persistence
+   Write integration tests for the API mocking the persistence
+   (Implied here is practice using controller-service-persistence architecture)
+   In all cases, write your tests (and thus your code) in baby steps, adding minimal broken functionality and minimal code to fix it.
+   Consider zero-one-many, boundaries, and exceptions in writing your tests
+2) Do effective pair programming
+   Push often, generally are the end of each red-green-refactor step.
+   Switch off regularly.
+3) Deploy your application as a docker container connected to a docker postgres database
+   Work vertically so you have something meaningful to deploy as quickly as possible
+4) Use Spring Profiles to be able to deploy a new container either using docker postgres or H2
+   (I'm working through some kinks on that, but will have code to show you by tomorrow.)
+5) Code all of the API.
+ContactList API (apologies for it not being super formal)
+GET /contacts -- returns a list all contacts (ID, given name, surname, and phone number)
+GET /contacts?givenname=, surname= --returns a list of contacts matching the provided parameters. Both are optional, making this a modification to GET /contacts.
+You'll want to send this information as a DTO to your service and have your service do whatever is needed for the persistence to do the correct thing.
+POST /contact -- request body contains given name, surname, phonenumber. Creates a new contact. Returns status of CREATED. Optional: Return the contact including the ID created for it. I'm not sure how to do this with hibernate, thus optional.
+GET /contact/{id} -- Returns 200 and the given contact if found, 404 if not
+DELETE /contact/{id} -- deletes the contact from the database returns 200 if ID is in database or 404 if not.
+If you have time, feel free to implement PUT and PATCH in a sensible manner as well.
+If you want an interesting challenge that isn't in scope for this class, look at validating your POST/PUT/PATCH calls
+https://www.baeldung.com/spring-boot-bean-validation
+BaeldungBaeldung
+Validation in Spring Boot | Baeldung
+Learn how to validate domain objects in Spring Boot using Hibernate Validator, the reference implementation of the Bean Validation framework.
+Feb 6th, 2019 (117 kB)
+https://www.baeldung.com/spring-boot-bean-validation
+
+
+Derick Castillo  6:50 PM
