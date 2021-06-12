@@ -1,0 +1,39 @@
+package com.phoneservices.unit;
+
+
+import com.phoneservices.model.Contact;
+import com.phoneservices.repository.ContactRepository;
+import com.phoneservices.service.ContactService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class ServiceTest {
+
+    @Mock
+    ContactRepository repository;
+
+    @InjectMocks
+    ContactService service;
+
+    @Test
+    public void testFindAllWithEmptyContact(){
+
+
+        List<Contact> contactList =  new ArrayList<>();
+        contactList.add( new Contact(1, "Alax", "Andrew", "123456"));
+        contactList.add( new Contact(2, "Matt", "Lencher", "249389584"));
+
+        when(repository.findAll()).thenReturn(contactList);
+
+        //when(repository.findAll()).thenReturn(new ArrayList<>());
+    }
+}
