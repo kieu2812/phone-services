@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,14 +27,18 @@ public class ServiceTest {
 
     @Test
     public void testFindAllWithEmptyContact(){
-
-
+        List<Contact> contactList =  new ArrayList<>();
+        when(repository.findAll()).thenReturn(contactList);
+        List<Contact> contacts = service.findAll();
+        assertEquals(contacts, contactList);
+    }
+    @Test
+    public void testFindAllContact(){
         List<Contact> contactList =  new ArrayList<>();
         contactList.add( new Contact(1, "Alax", "Andrew", "123456"));
         contactList.add( new Contact(2, "Matt", "Lencher", "249389584"));
-
         when(repository.findAll()).thenReturn(contactList);
-
-        //when(repository.findAll()).thenReturn(new ArrayList<>());
+        List<Contact> contacts = service.findAll();
+        assertEquals(contacts, contactList);
     }
 }
