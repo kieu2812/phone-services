@@ -1,16 +1,24 @@
+#version: "3.9"
+#services:
+#  phone_services_db:
+#    image: postgres
+#    ports:
+#     - "5432:5432"
+#    environment:
+#      POSTGRES_PASSWORD: postgres
+#  phone_services_app:
+#    image: phoneservices:dev
+#    ports:
+#      - "1000:8080"
+#    environment:
+#      SPRING_PROFILES_ACTIVE: dockercompose
+#    depends_on:
+#      - phone_services_db
 version: "3.9"
 services:
-  phone_services_db:
-    image: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: postgres
-  phone_services_app:
+  phone_services_app_h2:
     image: phoneservices:dev
     ports:
-      - "1000:8080"
+     - "2000:8080" #or wherever you'd like it mapped
     environment:
-      SPRING_PROFILES_ACTIVE: dockercompose
-    depends_on:
-      - phone_services_db
+      SPRING_PROFILES_ACTIVE: h2

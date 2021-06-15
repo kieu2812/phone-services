@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  phone_services_app_h2:
+    image: phoneservices:dev
+    ports:
+     - "2000:8080" #or wherever you'd like it mapped
+    environment:
+      SPRING_PROFILES_ACTIVE: h2

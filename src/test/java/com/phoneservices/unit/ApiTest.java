@@ -181,4 +181,55 @@ public class ApiTest {
                 .andExpect(status().isOk());
 
     }
+    @Test
+    public void testUpdateContactById() throws Exception{
+        Contact c1= new Contact(1, "Alax", "Andrew", "123456");
+        when(service.findById(c1.getId())).thenReturn(c1);
+        when(service.save(c1)).thenReturn(c1);
+        this.mvc.perform(put("/contact/{id}", c1.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(mapper.writeValueAsString(c1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(c1));
+
+    }
+    @Test
+    public void testUpdateContactByNonExistingId() throws Exception{
+        Contact c1= new Contact(1, "Alax", "Andrew", "123456");
+        when(service.findById(c1.getId())).thenReturn(c1);
+        when(service.save(c1)).thenReturn(c1);
+        this.mvc.perform(put("/contact/{id}", c1.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(mapper.writeValueAsString(c1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(c1));
+
+    }
+    @Test
+    public void testUpdatePartOfContactById() throws Exception{
+        Contact c1= new Contact(1, "Alax", "Andrew", "123456");
+        when(service.findById(c1.getId())).thenReturn(c1);
+        c1.setPhoneNumber("999999");
+        c1.setGivenName("Alexa");
+        when(service.save(c1)).thenReturn(c1);
+        this.mvc.perform(patch("/contact/{id}", c1.getId())
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                            .content(mapper.writeValueAsString(c1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(c1));
+    }
+
+    @Test
+    public void testUpdatePartOfContactByNonExistingId() throws Exception{
+        Contact c1= new Contact(1, "Alax", "Andrew", "123456");
+        when(service.findById(c1.getId())).thenReturn(c1);
+        c1.setPhoneNumber("999999");
+        c1.setGivenName("Alexa");
+        when(service.save(c1)).thenReturn(c1);
+        this.mvc.perform(patch("/contact/{id}", c1.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(mapper.writeValueAsString(c1)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(c1));
+    }
 }

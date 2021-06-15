@@ -48,4 +48,25 @@ public class ContractController {
 
     }
 
+    @PutMapping("/contact/{id}")
+    public Contact updateContact(@RequestBody Contact contact, @PathVariable int id) throws ResourceNotFoundException {
+        Contact contactInDb =  this.service.findById(id);
+        contact.setId(contactInDb.getId());
+        service.save(contact);
+        return contact;
+    }
+
+    @PatchMapping("/contact/{id}")
+    public Contact updatePartOfContact(@RequestBody Contact contact, @PathVariable int id) throws ResourceNotFoundException {
+        Contact contactInDb =  this.service.findById(id);
+        if(contact.getGivenName()!=null)
+            contactInDb.setGivenName(contact.getGivenName());
+        if(contact.getSurName()!=null)
+            contactInDb.setSurName(contact.getSurName());
+        if(contact.getPhoneNumber()!=null)
+            contactInDb.setPhoneNumber(contact.getPhoneNumber());
+
+        service.save(contactInDb);
+        return contactInDb;
+    }
 }
